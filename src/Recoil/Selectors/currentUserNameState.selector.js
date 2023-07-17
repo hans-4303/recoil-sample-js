@@ -1,6 +1,6 @@
 /* 동기 상황에서 작성한 selector */
 import { selector } from "recoil";
-
+/* atom 호출 */
 import { currentUserIDState } from "../Atoms/currentUserIDState.atom";
 
 export const currentUserNameState = selector({

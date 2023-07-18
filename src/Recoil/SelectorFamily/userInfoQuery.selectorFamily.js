@@ -1,20 +1,26 @@
-/* selectorFamily 가져오기 */
+/* 비동기 상황에서 사용할 selectorFamily */
 import { selectorFamily } from "recoil";
 
-/* 아래 selectorFamily는 쿼리 새로고침을 할 수 있다 가정함 */
+/* atomFamily 불러오기 */
+import userInfoQueryRequestIDState from "../AtomsFamily/userInfoQueryRequestIDState.atomFamily";
+
 const userInfoQuery = selectorFamily({
   key: "UserInfoQuery",
-  /* get 동작에서 userID 파라미터를 전제함 */
-  get: (userID) => async () => {
-    /* 인수를 대입하고 await으로 데이터베이스 통신 */
-    const response = await myDBQuery({ userID });
-    /* 에러 발생 시 throw */
-    if (response.error) {
-      throw response.error;
-    }
-    /* 성공시 res.data 반환 */
-    return response.data;
-  },
+  get:
+    /* 호출 시 userID 파라미터 가지고 비동기 동작 */
+    (userID) =>
+    async ({ get }) => {
+      /* 파라미터를 userInfoQueryRequestIDState atom에 대입하고 결과 반환 */
+      get(userInfoQueryRequestIDState(userID)); // Add request ID as a dependency
+      /* 파라미터로 데이터베이스 접근 */
+      const response = await myDBQuery({ userID });
+      /* 에러 시 동작 */
+      if (response.error) {
+        throw response.error;
+      }
+      /* res 데이터 반환 */
+      return response;
+    },
 });
 
 export default userInfoQuery;

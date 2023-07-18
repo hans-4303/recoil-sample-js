@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { todoListState } from "../../Recoil/Atoms/todoListState.atom";
-import { getId } from "../../Utils/getId";
+import { getId } from "../../Utils/getId.util";
 
 /* TodoItemCreator 컴포넌트 */
 const TodoItemCreator = () => {

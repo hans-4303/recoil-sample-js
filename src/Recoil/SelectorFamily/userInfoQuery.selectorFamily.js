@@ -1,19 +1,19 @@
-/* 비동기 상황, 파라미터 다루는 selectorFamily */
+/* selectorFamily 가져오기 */
 import { selectorFamily } from "recoil";
 
-/* userInfoQuery selectorFamily, userID 파라미터 다룸 */
+/* 아래 selectorFamily는 쿼리 새로고침을 할 수 있다 가정함 */
 const userInfoQuery = selectorFamily({
   key: "UserInfoQuery",
-  /* get 동작에서 userID 파라미터 받고 비동기 함수 */
+  /* get 동작에서 userID 파라미터를 전제함 */
   get: (userID) => async () => {
-    /* await으로 비동기 호출, 파라미터 전달 */
+    /* 인수를 대입하고 await으로 데이터베이스 통신 */
     const response = await myDBQuery({ userID });
-    /* 에러 시 동작 */
+    /* 에러 발생 시 throw */
     if (response.error) {
       throw response.error;
     }
-    /* 완료 시 res 데이터 반환 */
-    return response;
+    /* 성공시 res.data 반환 */
+    return response.data;
   },
 });
 

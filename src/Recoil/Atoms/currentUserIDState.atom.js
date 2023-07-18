@@ -1,9 +1,11 @@
-/* 동기 상황에서 작성한 atom */
+/* 비동기 상황에서 다룰 atom */
 import { atom } from "recoil";
 
-export const currentUserIDState = atom({
+const currentUserIDState = atom({
   /* 키 */
-  key: 'CurrentUserID',
+  key: "CurrentUserID",
   /* 기본 값 */
-  default: 1,
-})
+  default: null,
+});
+
+export default currentUserIDState;
